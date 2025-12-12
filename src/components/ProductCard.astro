@@ -6,6 +6,9 @@ interface Props {
 }
 
 const { product } = Astro.props;
+import { getAffiliateLink } from "../services/amazon";
+
+const affiliateLink = getAffiliateLink(product.affiliateLink, product.title);
 ---
 
 <article class="product-card">
@@ -18,7 +21,7 @@ const { product } = Astro.props;
         />
         <div class="overlay">
             <a
-                href={product.affiliateLink}
+                href={affiliateLink}
                 target="_blank"
                 rel="noopener noreferrer"
                 class="btn btn-primary"
@@ -45,11 +48,7 @@ const { product } = Astro.props;
             <span class="review-count">({product.reviews})</span>
         </div>
         <h3 class="title">
-            <a
-                href={product.affiliateLink}
-                target="_blank"
-                rel="noopener noreferrer"
-            >
+            <a href={affiliateLink} target="_blank" rel="noopener noreferrer">
                 {product.title}
             </a>
         </h3>

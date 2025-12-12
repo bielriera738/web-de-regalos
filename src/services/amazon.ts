@@ -20,9 +20,28 @@ interface AmazonConfig {
 const config: AmazonConfig = {
     accessKey: import.meta.env.AMAZON_ACCESS_KEY || '',
     secretKey: import.meta.env.AMAZON_SECRET_KEY || '',
-    partnerTag: import.meta.env.AMAZON_TAG || '',
+    partnerTag: import.meta.env.AMAZON_TAG || 'sitio200181-21', // Extracted from user link
     region: import.meta.env.AMAZON_REGION || 'eu-west-1',
 };
+
+export function getAffiliateLink(url: string, title?: string): string {
+    if (!url || url === '#') {
+        if (title) {
+            return `https://www.amazon.es/s?k=${encodeURIComponent(title)}&tag=${config.partnerTag}`;
+        }
+        return url;
+    }
+    try {
+        const urlObj = new URL(url);
+        if (urlObj.hostname.includes('amazon')) {
+            urlObj.searchParams.set('tag', config.partnerTag);
+            return urlObj.toString();
+        }
+    } catch (e) {
+        // Invalid URL, return original
+    }
+    return url;
+}
 
 /**
  * Fetches products from Amazon API or returns mock data if keys are missing.

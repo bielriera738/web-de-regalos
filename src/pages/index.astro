@@ -1,6 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import Hero from "../components/Hero.astro";
+import { categories } from "../data/categories";
 ---
 
 <Layout title="Regaloteca | Encuentra el Regalo Perfecto">
@@ -12,29 +13,17 @@ import Hero from "../components/Hero.astro";
 	<section class="container mb-xl">
 		<h2 class="text-center mb-md">Categorías Destacadas</h2>
 		<div class="categories-grid">
-			<a
-				href="/regalos-originales-para-madres"
-				class="category-card mother"
-			>
-				<div class="content">
-					<h3>Para Madres</h3>
-					<p>Sorprende a mamá con lo mejor</p>
-					<span class="btn-link">Ver Regalos &rarr;</span>
-				</div>
-			</a>
-			<!-- Placeholder for other categories -->
-			<div class="category-card placeholder">
-				<div class="content">
-					<h3>Para Padres</h3>
-					<p>Próximamente</p>
-				</div>
-			</div>
-			<div class="category-card placeholder">
-				<div class="content">
-					<h3>Tecnología</h3>
-					<p>Próximamente</p>
-				</div>
-			</div>
+			{
+				categories.map((category) => (
+					<a href={`/categoria/${category.id}`} class="category-card">
+						<div class="content">
+							<h3>{category.name}</h3>
+							<p>{category.description}</p>
+							<span class="btn-link">Ver Regalos &rarr;</span>
+						</div>
+					</a>
+				))
+			}
 		</div>
 	</section>
 
@@ -75,15 +64,11 @@ import Hero from "../components/Hero.astro";
 		border-color: var(--color-primary-light);
 	}
 
-	.category-card.mother {
-		background: linear-gradient(135deg, #fff5f5 0%, #fff 100%);
-		border-left: 5px solid var(--color-primary);
-	}
-
 	.category-card h3 {
 		color: var(--color-secondary);
 		margin-bottom: var(--spacing-xs);
-		font-size: 1.5rem;
+		font-size: 1.2rem;
+		line-height: 1.4;
 	}
 
 	.btn-link {
@@ -91,15 +76,5 @@ import Hero from "../components/Hero.astro";
 		margin-top: var(--spacing-sm);
 		color: var(--color-primary);
 		font-weight: 600;
-	}
-
-	.placeholder {
-		opacity: 0.6;
-		cursor: default;
-	}
-
-	.placeholder:hover {
-		transform: none;
-		box-shadow: var(--shadow-sm);
 	}
 </style>
